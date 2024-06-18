@@ -72,6 +72,23 @@ async function spaghetti(knex) {
   ]);
 }
 
+async function water(knex) {
+  await knex("recipes").insert({
+    recipe_name: "Water",
+  });
+  await knex("steps").insert([
+    {
+      step_number: 1,
+      step_instructions: "Fill glass with water",
+      recipe_id: 3,
+    },
+  ]);
+  await knex("ingredients").insert([{ ingredient_name: "water" }]);
+  await knex("recipe_ingredients").insert([
+    { recipe_id: 3, ingredient_id: 6, quantity: 1 },
+  ]);
+}
+
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex("recipe_ingredients").truncate();
@@ -81,4 +98,5 @@ exports.seed = async function (knex) {
 
   await peanutButterAndJelly(knex);
   await spaghetti(knex);
+  await water(knex);
 };
